@@ -1,0 +1,49 @@
+CREATE TABLE users (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    username VARCHAR(255) NOT NULL,
+    password VARCHAR(255) NOT NULL,
+    email VARCHAR(255) NOT NULL,
+    created_at Timestamp DATETIME DEFAULT CURRENT_TIMESTAMP,
+    updated_at Timestamp DATETIME DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE clients (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    name VARCHAR(255) UNIQUE NOT NULL,
+    address VARCHAR(255) NULL,
+    city VARCHAR(255) NULL,
+    state VARCHAR(255) NULL,
+    zip VARCHAR(255) NULL,
+    ABN VARCHAR(255) NULL,
+    OfficialName VARCHAR(255) NULL,
+    created_at Timestamp DATETIME DEFAULT CURRENT_TIMESTAMP,
+    updated_at Timestamp DATETIME DEFAULT CURRENT_TIMESTAMP,
+    user_id INTEGER NOT NULL DEFAULT (0),
+    FOREIGN KEY (user_id) REFERENCES users(id)
+);
+
+CREATE TABLE projects (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    name VARCHAR(255) NOT NULL,
+    client_id INTEGER NOT NULL,
+    created_at Timestamp DATETIME DEFAULT CURRENT_TIMESTAMP,
+    updated_at Timestamp DATETIME DEFAULT CURRENT_TIMESTAMP,
+    user_id INTEGER NOT NULL DEFAULT (0),
+    FOREIGN KEY (user_id) REFERENCES users(id),
+    FOREIGN KEY (client_id) REFERENCES clients(id)
+);
+
+CREATE TABLE entries (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    project_id INTEGER NOT NULL,
+    date DATE NOT NULL,
+    hours NUMERIC NOT NULL,
+    task VARCHAR(255) NOT NULL,
+    invoice_reference VARCHAR(255) NULL,
+    comments VARCHAR(255) NULL,
+    created_at Timestamp DATETIME DEFAULT CURRENT_TIMESTAMP,
+    updated_at Timestamp DATETIME DEFAULT CURRENT_TIMESTAMP,
+    user_id INTEGER NOT NULL DEFAULT (0),
+    FOREIGN KEY (user_id) REFERENCES users(id),
+    FOREIGN KEY (project_id) REFERENCES projects(id)
+);

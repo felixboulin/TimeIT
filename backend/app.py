@@ -3,6 +3,7 @@ from flask_restful import Api, Resource, reqparse
 from flask_cors import CORS  # comment this on deployment
 from api.AddClient import AddClient
 from api.SubmitTime import SubmitTime
+from api.AddProject import AddProject
 
 app = Flask(__name__, static_url_path='', static_folder='frontend/build')
 CORS(app)  # comment this on deployment
@@ -16,3 +17,4 @@ def serve(path):
 
 api.add_resource(SubmitTime, '/submitTime')
 api.add_resource(AddClient, '/add-client')
+api.add_resource(AddProject, '/add-project')
