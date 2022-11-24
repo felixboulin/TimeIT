@@ -11,8 +11,11 @@
   "author": "Felix Boulin",
   "license": "Apache-2.0",
   "dependencies": {
+    "file-loader": "^6.2.0",
+    "material-symbols": "^0.4.0",
     "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "react-dom": "^18.2.0",
+    "url-loader": "^4.1.1"
   },
   "devDependencies": {
     "@babel/core": "^7.20.2",

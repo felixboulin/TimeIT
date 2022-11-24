@@ -1,0 +1,24 @@
+.backImg {
+    position: absolute;
+    height: 35px;
+    z-index: -1;
+    left: 5px;
+    animation: si1 30s infinite;
+    animation-direction: alternate;
+}
+
+.Background {
+    background: rgb(2, 0, 36);
+    background: radial-gradient(circle, rgba(2, 0, 36, 1) 0%, rgba(117, 121, 9, 0.3719211822660099) 46%, rgba(255, 237, 0, 1) 66%);
+}
+
+@keyframes si1 {
+    0% {
+        transform: translate(0px, 0px);
+
+    }
+
+    100% {
+        transform: translate(100px, 250px);
+    }
+}

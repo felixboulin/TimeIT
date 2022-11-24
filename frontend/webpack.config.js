@@ -32,6 +32,12 @@ module.exports = {
                     },
                 ],
             },
+            {
+                test: /\.(png)$/,
+                use: {
+                    loader: 'url-loader?limit=100000'
+                }
+            }
         ],
     },
     plugins: [

@@ -1,7 +1,23 @@
 .ReferenceForm {}
 
+.selectText {
+    margin-left: calc((100% - 600px - 30px -6px)/2);
+    display: grid;
+    grid-auto-flow: column;
+    grid-template-columns: 100px 400px 100px;
+    /* grid-auto-columns: 150px; */
+}
+
+.selectParam {
+    margin-left: calc((100% - 300px - 30px -6px)/2);
+    display: grid;
+    grid-auto-flow: column;
+    grid-template-columns: 100px 150px 50px;
+}
+
 .Selector>* {
-    margin: 5px
+    margin: 5px;
+    /* border: 1px solid black; */
 }
 
 .form-popup {
@@ -55,4 +71,47 @@
 .form-container .btn:hover,
 .open-button:hover {
     opacity: 1;
+}
+
+.ReferenceButton {
+    border-radius: 5%;
+    box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.5);
+    border: none;
+}
+
+.ReferenceButton:hover {
+    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.5);
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.longText {
+    height: 50px;
+}
+
+.childConfirm {
+    border: none;
+}
+
+.childConfirm>* {
+    width: 100%;
+    /* border: 1px solid black; */
+
+}
+
+.childLabel {
+    border: none;
+}
+
+/* .childLabel>* {
+    padding: 0 25%;
+    border: 1px solid black;
+} */
+
+label {
+    border: none;
+}
+
+textarea {
+    resize: none;
 }

@@ -1,0 +1,12 @@
+To import images in React
+Install loaders (file-loader, url-loader). 
+e.g. $ npm install --save file-loader url-loader
+
+Install CSS
+$ npm install --save style-loader css-loader
+
+Append to loader list:
+ {
+      test: /\.(jpe?g|png|gif|woff|woff2|eot|ttf|svg)(\?[a-z0-9=.]+)?$/,
+      loader: 'url-loader?limit=100000' }]
+  },

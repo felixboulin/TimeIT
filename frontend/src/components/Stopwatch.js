@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import 'material-symbols';
 import './Stopwatch.css';
 
 function Stopwatch() {
@@ -32,6 +33,7 @@ function Stopwatch() {
         let isExecuter = window.confirm("Are you sure you want to cancel? You will lose all time data and won't be able to retrieve it.");
         if (isExecuter) {
             clearInterval(timer);
+            setIsRunning(false);
             setTime(0);
         } else {
             return;
@@ -45,14 +47,20 @@ function Stopwatch() {
 
     return (
         <div className="Stopwatch">
-            <h1>Stopwatch</h1>
+            {/* <h1>Stopwatch</h1> */}
             <div className="Circle">
                 <div className="Time">{hour}:{minute}:{second}</div>
                 <div className="Buttons">
-                    <button className="WatchButton" name="Start" onClick={StartTimer}>Start</button>
-                    <button className="WatchButton" name="Pause" onClick={PauseTimer}>Pause</button>
-                    <button className="WatchButton" name="Cancel" onClick={Cancel}>Cancel</button>
-                    <button className="WatchButton" name="Submit">Submit</button>
+
+                    <button className="WatchButton" name="Start" onClick={StartTimer}><span class="material-symbols-outlined icon">
+                        play_circle
+                    </span></button>
+                    <button className="WatchButton" name="Pause" onClick={PauseTimer}><span class="material-symbols-outlined icon">
+                        pause
+                    </span></button>
+                    <button className="WatchButton" name="Cancel" id="stopButton" onClick={Cancel}><span class="material-symbols-outlined icon">
+                        stop_circle
+                    </span></button>
                 </div>
             </div>
         </div>
