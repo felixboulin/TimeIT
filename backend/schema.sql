@@ -36,7 +36,7 @@ CREATE TABLE projects (
 CREATE TABLE entries (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     project_id INTEGER NOT NULL,
-    date DATE NOT NULL,
+    entry_date DATE NOT NULL,
     hours NUMERIC NOT NULL,
     task VARCHAR(255) NOT NULL,
     invoice_reference VARCHAR(255) NULL,

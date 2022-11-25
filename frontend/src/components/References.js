@@ -1,12 +1,13 @@
 import React, { useState, useRef, useEffect } from "react";
 import './References.css';
 import axios from 'axios';
-// import ClientList from "./ClientList";
+import Stopwatch from "./Stopwatch";
 
 const API_ROOT = "http://localhost:4000/";
 
-function TopReferences() {
+function References() {
 
+    // Legacy, Top Reference State variables
     const [clients, setClients] = useState([]);
     const [projects, setProjects] = useState([]);
     const [clientFormDisplay, setClientFormDisplay] = useState("none");
@@ -15,20 +16,64 @@ function TopReferences() {
     const projectName = useRef();
     const projectClientName = useRef();
     const [clientSelected, setClientSelected] = useState("");
-    // set the below at the APP level
-    // const [task, setTask] = useState("");
-    // const [invoiceRef, setInvoiceRef] = useState("");
+    const [projectSelected, setProjectSelected] = useState("");
+
+    // Legacy, Bottom Reference State variables
+    const task = useRef();
+    const invoiceRef = useRef();
+    const comment = useRef();
+
+    // Legacy, Stopwatch State variables
+    const [time, setTime] = useState(0);
+    const [timer, setTimer] = useState(null);
+    const [isRunning, setIsRunning] = useState(false);
+
+    // Functions related to Stopwatch operations
+    const UpdateCounter = () => {
+        setTime(time => time + 1);
+    }
+    const StartTimer = () => {
+        if (isRunning) {
+            return;
+        } else {
+            setTimer(setInterval(UpdateCounter, 1000))
+            setIsRunning(true);
+        }
+    }
+    const PauseTimer = () => {
+        if (isRunning) {
+            clearInterval(timer);
+            setIsRunning(false);
+        } else {
+            return;
+        }
+    }
+    const Cancel = () => {
+        let isExecuter = window.confirm("Are you sure you want to cancel? You will lose all time data and won't be able to retrieve it.");
+        if (isExecuter) {
+            clearInterval(timer);
+            setIsRunning(false);
+            setTime(0);
+        } else {
+            return;
+        }
+    }
 
 
+    // Functions related to Legacy, Top Reference operations
     useEffect(() => {
         getClientProjects();
     }, []);
 
     const handleClientSelect = (e) => {
         e.preventDefault();
-        console.log(e.target.value);
         setClientSelected(e.target.value);
         getProjects(e.target.value);
+    }
+
+    const handleProjectSelect = (e) => {
+        e.preventDefault();
+        setProjectSelected(e.target.value);
     }
 
     const ClientList = () => {
@@ -38,6 +83,7 @@ function TopReferences() {
             } else {
                 return (
                     <select name="Client" value={clientSelected} onChange={handleClientSelect}>
+                        <option value={'select a client'}>Select / Add Client</option>
                         {clients.map((client, i) => (
                             <option value={client} key={i} >{client}</option>))}
                     </select>
@@ -52,10 +98,12 @@ function TopReferences() {
     const ProjectList = () => {
         try {
             if (projects.length === 0) {
-                return <></>;
+                return <><select name="Projects" value={projectSelected} onChange={handleProjectSelect} >
+                    <option value={'select a project'}>Select / Add Project</option></select></>;
             } else {
                 return (
-                    <select name="Projects">
+                    <select name="Projects" value={projectSelected} onChange={handleProjectSelect} >
+                        <option value={'select a project'}>Select / Add Project</option>
                         {projects.map((project, i) => (
                             <option value={project} key={i}>{project}</option>))}
                     </select>
@@ -92,7 +140,7 @@ function TopReferences() {
     }
 
     const getProjects = (client) => {
-        axios.post(`${API_ROOT}add-project`, { "type": "display", "client": client }).then(response => {
+        axios.get(`${API_ROOT}add-project?client=${client}`).then(response => {
             setProjects(response.data);
         }).catch(error => { console.log(error) });
     }
@@ -139,13 +187,42 @@ function TopReferences() {
         }
     }
 
-    return (
+    // Submit the time entry to the backend
+    const SubmitEntry = () => {
+        let t = task.current.value;
+        let i = invoiceRef.current.value;
+        let c = comment.current.value;
+        let p = projectSelected;
+        let cl = clientSelected;
+        let time_submit = formatTime(time);
+        if (t === "" || cl === "" || p === "") {
+            alert("You must enter a Client, Project and a Task.");
+        }
+        else {
+            let go = window.confirm("The following entry will be added to the database:\nClient: " + cl + "\nProject: " + p + "\nTask: " + t + "\nTime: " + time_submit + "\nInvoice Ref: " + i + "\nComment: " + c + "\nIs this correct?");
+            if (go) {
+                axios.post(`${API_ROOT}add-entry`, { "task": t, "invoiceRef": i, "comment": c, "client": cl, "project": p, "time": time }).then(response => {
+                    console.log(response);
+                }).catch(error => { console.log(error) });
+            }
+            else {
+                console.log("Entry not added");
+            }
+        }
+    };
+
+    const formatTime = (time) => {
+        let hour = Math.floor(time / 3600);
+        let minute = Math.floor((time - hour * 3600) / 60);
+        let second = time - hour * 3600 - minute * 60;
+        return (`${hour}:${minute}:${second}`)
+    }
+
+    return (<>
         <div className="References" id="TopReferences">
-            <h1>TimeIT</h1>
-            <p>Configure clients and projects and start tracking your time and generate your invoices</p>
             <div className="ReferenceForm">
                 <div className="Selector selectParam" id="ClientSelector">
-                    <label htmlFor="Client">Client</label>
+                    {/* <label htmlFor="Client">Client</label> */}
                     <ClientList clients={clients} />
                     <button className="ReferenceButton" type="button" name="Add" id="open-client" onClick={ManageForms}>Add</button>
                     <div className="form-popup" id="AddClient" style={{ display: clientFormDisplay }}>
@@ -159,7 +236,7 @@ function TopReferences() {
                     </div>
                 </div>
                 <div className="Selector selectParam" id="ProjectSelector">
-                    <label htmlFor="Project">Project</label>
+                    {/* <label htmlFor="Project">Project</label> */}
                     <ProjectList projects={projects} />
                     <button className="ReferenceButton" type="button" name="Add" id="open-project" onClick={ManageForms}>Add</button>
                 </div>
@@ -177,7 +254,29 @@ function TopReferences() {
                 </div>
             </div>
         </div>
-    );
+        <Stopwatch time={time} StartTimer={StartTimer} PauseTimer={PauseTimer} Cancel={Cancel} />
+        <div className="References" id="BottomReferences">
+            <h2>Time Entry Details</h2>
+            <div className="Selector selectText" id="TaskSelector">
+                <label htmlFor="Task">Task</label>
+                <input type="text" name="Task" ref={task} />
+            </div>
+
+            <div className="Selector selectText" id="InvoiceReference">
+                <label htmlFor="InvoiceReference">Invoice Ref.</label>
+                <input type="text" name="InvoiceReference" ref={invoiceRef} />
+            </div>
+
+            <div className="Selector selectText" id="Comments">
+                <div className="childLabel">
+                    <label htmlFor="CommentS">Comments</label>
+                </div>
+                <textarea name="CommentS" className="longText " ref={comment} ></textarea>
+            </div>
+
+        </div>
+        <button className="SubmitButton" name="SubmitEntry" onClick={SubmitEntry}>Submit Time Entry</button>
+    </>);
 }
 
-export default TopReferences;
+export default References;

@@ -1,8 +1,6 @@
 import React from "react";
 
-import Stopwatch from "./components/Stopwatch";
-import TopReferences from "./components/TopReferences";
-import BottomReferences from "./components/BottomRefences";
+import References from "./components/References";
 import Background from "./components/Background";
 
 
@@ -11,11 +9,10 @@ function App() {
         <div className="App">
             {/* <nav>Navigation</nav>
             <main>Main */}
+            <div className="title">TimeIT</div>
+            {/* <p>Configure clients and projects and start tracking your time and generate your invoices</p> */}
             <Background />
-            <TopReferences />
-            <Stopwatch />
-            <BottomReferences />
-            <button className="SubmitButton" name="Submit">Submit</button>
+            <References />
             {/* </main> */}
         </div >
     );

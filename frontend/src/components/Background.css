@@ -1,10 +1,19 @@
 .backImg {
     position: absolute;
-    height: 35px;
+    height: 50px;
     z-index: -1;
-    left: 5px;
-    animation: si1 30s infinite;
-    animation-direction: alternate;
+    /* animation: si1 30s infinite; */
+    /* animation-direction: alternate; */
+}
+
+#r1 {
+    top: 25%;
+    left: 75%;
+}
+
+#r2 {
+    top: 50%;
+    left: 25%;
 }
 
 .Background {
