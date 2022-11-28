@@ -133,6 +133,15 @@ function TimeRecorder() {
             .catch(error => { console.log(error) });
     }
 
+    const getClients = () => {
+        // =getClients();
+        axios.get(`${API_ROOT}add-client`)
+            .then(response => {
+                setClients(response.data);
+                return response
+            }).catch(error => { console.log(error) });
+    }
+
     // Submit the time entry to the backend
     const SubmitEntry = () => {
         let t = task.current.value;
@@ -165,7 +174,7 @@ function TimeRecorder() {
     }
 
     return (<>
-        <TopRefs client={clients} projects={projects} API_ROOT={API_ROOT} ClientList={ClientList} ProjectList={ProjectList} />
+        <TopRefs client={clients} projects={projects} API_ROOT={API_ROOT} ClientList={ClientList} ProjectList={ProjectList} getClients={getClients} />
         <Stopwatch time={time} StartTimer={StartTimer} PauseTimer={PauseTimer} Cancel={Cancel} />
         <BottomRefs task={task} invoiceRef={invoiceRef} comment={comment} />
         <button className="SubmitButton" name="SubmitEntry" onClick={SubmitEntry}>Submit Time Entry</button>

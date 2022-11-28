@@ -4,7 +4,7 @@ import axios from "axios";
 
 function TopRefs(props) {
 
-    const { clients, projects, API_ROOT, ClientList, ProjectList } = props;
+    const { clients, projects, API_ROOT, ClientList, ProjectList, getClients } = props;
 
     const [clientFormDisplay, setClientFormDisplay] = useState("none");
     const [projectFormDisplay, setProjectFormDisplay] = useState("none");
@@ -43,8 +43,7 @@ function TopRefs(props) {
                 ManageForms('close-client');
             }).catch(error => { console.log(error) });
         }
-    }
-
+    };
 
     const addProject = () => {
         // call the backend to add a project
