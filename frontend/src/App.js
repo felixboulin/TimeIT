@@ -1,6 +1,6 @@
 import React from "react";
 
-import References from "./components/References";
+import TimeRecorder from "./containers/TimeRecorder/TimeRecorder";
 import Background from "./components/Background";
 
 
@@ -12,7 +12,7 @@ function App() {
             <div className="title">TimeIT</div>
             {/* <p>Configure clients and projects and start tracking your time and generate your invoices</p> */}
             <Background />
-            <References />
+            <TimeRecorder />
             {/* </main> */}
         </div >
     );
