@@ -19,9 +19,6 @@ class AddEntry(Resource):
         parser.add_argument('comment', type=str)
         parser.add_argument('invoiceRef', type=str)
         args = parser.parse_args()
-        print(args)
-        print(date)
-        print(convertTime(args['time']))
 
         time = convertTime(args['time'])
 
@@ -31,10 +28,8 @@ class AddEntry(Resource):
         try:
             client_id = cur.execute(
                 "SELECT id FROM clients WHERE name = ?", (args['client'],)).fetchone()[0]
-            print(client_id)
             project_id = cur.execute(
                 "SELECT id FROM projects WHERE name = ? AND client_id = ?", (args['project'], client_id,)).fetchone()[0]
-            print(project_id)
             cur.execute("INSERT INTO entries (task, project_id, hours, comments, invoice_reference, entry_date) VALUES (?, ?, ?, ?, ?, ?)",
                         (args['task'], project_id, time, args['comment'], args['invoiceRef'], date,))
             conn.commit()
