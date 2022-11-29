@@ -8,6 +8,7 @@ import {
 import TimeRecorder from "./containers/TimeRecorder/TimeRecorder";
 import Background from "./components/Background";
 import Clients from "./containers/clients/clients";
+import Entries from "./containers/entries/Entries";
 
 const API_ROOT = "http://localhost:4000/";
 
@@ -19,8 +20,9 @@ function App() {
                 <div className="menuItems">
                     <div className="menuItem"><Link to="/">Home</Link></div>
                     <div className="menuItem"><Link to="/time">Time Recorder</Link></div>
+                    <div className="menuItem"><Link to="/entries">Entries</Link></div>
                     <div className="menuItem"><Link to="/clients">Clients</Link></div>
-                    <div className="menuItem">Entries</div>
+                    <div className="menuItem">Projects</div>
                     <div className="menuItem">Reports</div>
                     <div className="menuItem">Settings</div>
                 </div>
@@ -29,6 +31,7 @@ function App() {
                 <Route path="/" element={<Background />} />
                 <Route path="/time" element={<TimeRecorder API_ROOT={API_ROOT} />} />
                 <Route path="/clients" element={<Clients API_ROOT={API_ROOT} />} />
+                <Route path="/entries" element={<Entries API_ROOT={API_ROOT} />} />
             </Routes>
         </div>
         <Background />
