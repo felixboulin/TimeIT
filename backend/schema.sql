@@ -20,6 +20,7 @@ CREATE TABLE clients (
     updated_at Timestamp DATETIME DEFAULT CURRENT_TIMESTAMP,
     user_id INTEGER NOT NULL DEFAULT (0),
     FOREIGN KEY (user_id) REFERENCES users(id)
+    invoiced_entity VARCHAR(255) NULL,
 );
 
 CREATE TABLE projects (

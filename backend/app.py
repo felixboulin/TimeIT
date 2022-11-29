@@ -5,6 +5,7 @@ from api.AddClient import AddClient
 from api.AddEntry import AddEntry
 from api.AddProject import AddProject
 from api.TestAPI import TestAPI
+from api.ManageClients import ManageClients
 
 app = Flask(__name__, static_url_path='', static_folder='frontend/build')
 CORS(app)  # comment this on deployment
@@ -20,3 +21,4 @@ api.add_resource(AddEntry, '/add-entry')
 api.add_resource(AddClient, '/add-client')
 api.add_resource(AddProject, '/add-project')
 api.add_resource(TestAPI, '/test', endpoint='test')
+api.add_resource(ManageClients, '/manage-clients')

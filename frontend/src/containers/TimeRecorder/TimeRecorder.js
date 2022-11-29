@@ -6,9 +6,9 @@ import Stopwatch from "./components/Stopwatch";
 import TopRefs from "./components/TopRefs";
 import BottomRefs from "./components/BottomRefs";
 
-const API_ROOT = "http://localhost:4000/";
 
-function TimeRecorder() {
+function TimeRecorder(props) {
+    const { API_ROOT } = props;
 
     // TopRef State variables
     const [clients, setClients] = useState([]);
@@ -173,12 +173,12 @@ function TimeRecorder() {
         return (`${hour}:${minute}:${second}`)
     }
 
-    return (<>
+    return (<div className="App">
         <TopRefs client={clients} projects={projects} API_ROOT={API_ROOT} ClientList={ClientList} ProjectList={ProjectList} getClients={getClients} />
         <Stopwatch time={time} StartTimer={StartTimer} PauseTimer={PauseTimer} Cancel={Cancel} />
         <BottomRefs task={task} invoiceRef={invoiceRef} comment={comment} />
         <button className="SubmitButton" name="SubmitEntry" onClick={SubmitEntry}>Submit Time Entry</button>
-    </>);
+    </div>);
 }
 
 export default TimeRecorder;

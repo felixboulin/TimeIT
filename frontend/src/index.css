@@ -19,8 +19,13 @@ body {
     /* background-color: rgb(255, 249, 243) */
 }
 
+#root {
+    margin: 0 auto;
+    max-width: fit-content;
+}
+
 .title {
-    font-size: 6rem;
+    font-size: 5rem;
     font-style: italic;
     font-family: 'Montserrat', sans-serif;
     margin: 0;
