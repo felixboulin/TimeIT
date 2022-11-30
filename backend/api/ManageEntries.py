@@ -9,7 +9,7 @@ class ManageEntries(Resource):
         conn = sqlite3.connect('timeit.db')
         cur = conn.cursor()
         res = cur.execute("""
-            SELECT e.id, e.entry_date, e.hours, e.task, e.invoice_reference, e.comments, p.name, c.name 
+            SELECT e.id, e.entry_date, e.hours, e.task, e.invoice_reference, e.comments, p.name, c.name, e.invoiced 
             FROM entries as e
             JOIN projects as p ON e.project_id = p.id
             JOIN clients as c ON p.client_id = c.id
@@ -28,6 +28,7 @@ class ManageEntries(Resource):
             tmp['comments'] = row[5]
             tmp['project'] = row[6]
             tmp['client'] = row[7]
+            tmp['invoiced'] = 'N' if row[8] == 0 else 'Y'
             entries['en'].append(tmp)
 
         entriesData = json.dumps(entries)
@@ -35,21 +36,17 @@ class ManageEntries(Resource):
         return entriesData, 200
 
     def post(self):
-        return
-        # edit client
+        # edit entry
         parser = reqparse.RequestParser()
         parser.add_argument('id', type=int)
-        parser.add_argument('name', type=str)
-        parser.add_argument('address', type=str)
-        parser.add_argument('city', type=str)
-        parser.add_argument('state', type=str)
-        parser.add_argument('zip', type=str)
-        parser.add_argument('ABN', type=str)
-        parser.add_argument('OfficialName', type=str)
-        parser.add_argument('invoiced_entity', type=str)
+        parser.add_argument('entry_date', type=str)
+        parser.add_argument('hours', type=float)
+        parser.add_argument('task', type=str)
+        parser.add_argument('invoice_reference', type=str)
+        parser.add_argument('comments', type=str)
+        parser.add_argument('invoiced', type=int)
 
         args = parser.parse_args()
-        print(args)
 
         timestamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
 
@@ -59,21 +56,24 @@ class ManageEntries(Resource):
         if args['id'] < 0:
             # add new client
             try:
-                cur.execute("INSERT INTO clients (name, address, city, state, zip, ABN, OfficialName, invoiced_entity, user_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?, 0)",
-                            (args['name'], args['address'], args['city'], args['state'], args['zip'], args['ABN'], args['OfficialName'], args['invoiced_entity']))
+                cur.execute("""INSERT INTO entries (user_id, entry_date, hours, task, invoice_reference, comments, invoiced) 
+                            VALUES (0, ?, ?, ?, ?, ?, ?, ?, ?)""",
+                            (args['entry_date'], args['hours'], args['task'], args['invoice_reference'], args['comments'], args['invoiced']))
                 conn.commit()
-            except sqlite3.IntegrityError:
+                return {'message': 'Entry added'}, 200
+            except:
                 return {
-                    'message': 'Client name already exists'
+                    'message': 'Entry not added'
                 }, 200
 
         else:
             # edit existing client
             try:
-                cur.execute("UPDATE clients SET name = ?, address = ?, city = ?, state = ?, zip = ?, ABN = ?, OfficialName = ?, invoiced_entity = ?, updated_at = ? WHERE id = ?",
-                            (args['name'], args['address'], args['city'], args['state'], args['zip'], args['ABN'], args['OfficialName'], args['invoiced_entity'], timestamp, args['id']))
+                cur.execute("UPDATE entries SET entry_date = ?, hours = ?, task = ?, invoice_reference = ?, comments = ?, invoiced = ?, updated_at = ? WHERE id = ?",
+                            (args['entry_date'], args['hours'], args['task'], args['invoice_reference'], args['comments'], args['invoiced'], timestamp, args['id']))
                 conn.commit()
+                return {'message': 'Entry updated'}, 200
             except:
                 return {
-                    'message': 'Error, client not updated'
+                    'message': 'Error, entry not updated'
                 }, 204

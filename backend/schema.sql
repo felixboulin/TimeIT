@@ -46,5 +46,6 @@ CREATE TABLE entries (
     updated_at Timestamp DATETIME DEFAULT CURRENT_TIMESTAMP,
     user_id INTEGER NOT NULL DEFAULT (0),
     FOREIGN KEY (user_id) REFERENCES users(id),
-    FOREIGN KEY (project_id) REFERENCES projects(id)
+    FOREIGN KEY (project_id) REFERENCES projects(id),
+    invoiced INTEGER NOT NULL DEFAULT (0)
 );

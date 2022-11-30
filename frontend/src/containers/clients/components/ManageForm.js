@@ -54,7 +54,17 @@ export default function ManageForm(props) {
             </p>
         </div>
         <div className="buttonContainer">
-            <input type={"submit"} value={check ? "SubmitEdit" : "SubmitNew"} onClick={(e) => handleManageFormSubmit(e, client, clientNameRef.current.value, AddressRef.current.value, CityRef.current.value, StateRef.current.value, ZipRef.current.value, ABNRef.current.value, OfficialNameRef.current.value, invoiced_entityRef.current.value)} />
+            <input type={"submit"} value={check ? "SubmitEdit" : "SubmitNew"}
+                onClick={(e) => handleManageFormSubmit(e,
+                    client,
+                    clientNameRef.current.value,
+                    AddressRef.current.value,
+                    CityRef.current.value,
+                    StateRef.current.value,
+                    ZipRef.current.value,
+                    ABNRef.current.value,
+                    OfficialNameRef.current.value,
+                    invoiced_entityRef.current.value)} />
             <input type={"button"} value={"Cancel"} onClick={(e) => handleManageFormCancel(e)} />
         </div>
     </>)

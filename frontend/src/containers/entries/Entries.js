@@ -18,7 +18,6 @@ export default function Entries(props) {
 
     const getEntries = () => {
         axios.get(`${API_ROOT}manage-entries`).then(response => {
-            console.log(response.data);
             setEntries(JSON.parse(response.data));
         }).catch(error => { console.log(error) });
     }
@@ -43,22 +42,27 @@ export default function Entries(props) {
         };
     };
 
-    const handleManageFormSubmit = (e, entry, entryNameRef, entryDescriptionRef, entryPriceRef, entryQuantityRef, entryTotalRef) => {
+    const handleManageFormSubmit = (e, entry, entryDateRef, hoursRef, taskRef, invoiceReferenceRef, commentsRef, invoicedRef) => {
         e.preventDefault();
         let id = null
-        if (e.target.value === 'SubmitEdit') {
+        console.log(invoicedRef)
+        let invoiced = invoicedRef === true ? 1 : 0;
+        if (e.target.value === 'Submit Edit') {
             id = parseInt(entry.id);
-        } else if (e.target.value === 'SubmitNew') {
+        } else if (e.target.value === 'Submit New') {
             id = -1;
         };
+
         axios.post(`${API_ROOT}manage-entries`, {
             "id": id,
-            "name": entryNameRef,
-            "description": entryDescriptionRef,
-            "price": entryPriceRef,
-            "quantity": entryQuantityRef,
-            "total": entryTotalRef,
+            "entry_date": entryDateRef,
+            "hours": hoursRef,
+            "task": taskRef,
+            "invoice_reference": invoiceReferenceRef,
+            "comments": commentsRef,
+            "invoiced": invoiced,
         }).then(response => {
+            console.log(response);
             getEntries();
             setShowManageForm(false);
         }).catch(error => { console.log(error) });
@@ -79,9 +83,9 @@ export default function Entries(props) {
             <button value="edit" onClick={(e) => popManageForm(e, entries, entrySelected)}>Edit</button>
         </form>
         {showManageForm ? <ManageForm
-            manageFormType={manageFormType}
-            entrySelected={entrySelected}
             entries={entries}
+            entrySelected={entrySelected}
+            manageFormType={manageFormType}
             handleManageFormSubmit={handleManageFormSubmit}
             handleManageFormCancel={handleManageFormCancel}
         /> : null}
