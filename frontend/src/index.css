@@ -57,3 +57,41 @@ body {
 }
 
 .App {}
+
+/* Style related to similar components shared in the Clients and Entries containers. Same classes have been used */
+.standardTable {}
+
+th,
+td {
+    /* border: 1px solid black; */
+    padding: 5px;
+}
+
+table {
+    border-collapse: collapse;
+    width: 100%;
+    border: 2px solid orange;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
+
+th {
+    background-color: #f1b040;
+    color: white;
+}
+
+
+tr:nth-child(even) {
+    background-color: #f4c67782;
+}
+
+tr:hover {
+    background-color: #f1b040;
+}
+
+table td {
+    border-left: 1px solid orange;
+}
+
+/* table td:first-child {
+    border-left: none;
+} */

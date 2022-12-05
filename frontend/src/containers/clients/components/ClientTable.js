@@ -7,7 +7,7 @@ export default function ClientTable(props) {
         // console.log(clients);
         let cl = clients.cl;
         return (<div>
-            <table>
+            <table className="standardTable">
                 <thead>
                     <tr>
                         <th>Select</th>

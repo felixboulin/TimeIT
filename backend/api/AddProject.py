@@ -7,10 +7,20 @@ class AddProject(Resource):
     def get(self):
         parser = reqparse.RequestParser()
         parser.add_argument('client', type=str, location='args')
+        parser.add_argument('type', type=str, location='args')
+        parser.add_argument('project', type=str, location='args')
         args = parser.parse_args()
 
         conn = sqlite3.connect('timeit.db')
         cur = conn.cursor()
+
+        if args['type'] == 'retrieveID':
+            try:
+                id = cur.execute(
+                    """SELECT id FROM projects WHERE name = ?""", (args['project'],)).fetchone()[0]
+                return id, 200
+            except:
+                return 0, 204
 
         projects = []
         try:

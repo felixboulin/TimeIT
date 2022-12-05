@@ -6,7 +6,13 @@ export default function ManageForm(props) {
         entrySelected,
         manageFormType,
         handleManageFormSubmit,
-        handleManageFormCancel
+        handleManageFormCancel,
+        clientSelected,
+        projectSelected,
+        handleClientSelect,
+        handleProjectSelect,
+        clients,
+        projects,
     } = props;
 
     const entryDateRef = useRef();
@@ -20,8 +26,52 @@ export default function ManageForm(props) {
     let check = manageFormType === 'edit' ? true : false;
     let invoiced_status = check ? entry.invoiced === 'Y' ? true : false : false;
 
+    const ClientList = () => {
+        try {
+            if (clients.length === 0) {
+                return <></>;
+            } else {
+                return (
+                    <select name="Client" value={clientSelected} onChange={handleClientSelect}>
+                        <option value={'select a client'}>Select Client</option>
+                        {clients.map((client, i) => (
+                            <option value={client} key={i} >{client}</option>))}
+                    </select>
+                )
+            }
+        } catch (error) {
+            console.log(error)
+
+        };
+    }
+
+    const ProjectList = () => {
+        try {
+            if (projects.length === 0) {
+                return <><select name="Projects" value={projectSelected} onChange={handleProjectSelect} >
+                    <option value={'select a project'}>Select Project</option></select></>;
+            } else {
+                return (
+                    <select name="Projects" value={projectSelected} onChange={handleProjectSelect} >
+                        <option value={'select a project'}>Select Project</option>
+                        {projects.map((project, i) => (
+                            <option value={project} key={i}>{project}</option>))}
+                    </select>
+                )
+            }
+        } catch (error) {
+            console.log(error)
+
+        };
+    }
+
     return (<>
         {check ? <h4>Edit Entry</h4> : <h4>Add New Entry</h4>}
+        {check ? <></>
+            : <div style={{ margin: "0.5rem auto" }}>
+                <ClientList clients={clients} />
+                <ProjectList projects={projects} />
+            </div>}
         <div className="editEntryForm">
             <p>
                 <label htmlFor="entryDate">Entry Date</label>

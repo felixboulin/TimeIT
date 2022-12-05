@@ -6,7 +6,7 @@ export default function EntryTable(props) {
     if (entries) {
         let en = entries.en;
         return (<div>
-            <table>
+            <table className="standardTable">
                 <thead>
                     <tr>
                         <th>Select</th>

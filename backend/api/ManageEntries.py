@@ -45,6 +45,7 @@ class ManageEntries(Resource):
         parser.add_argument('invoice_reference', type=str)
         parser.add_argument('comments', type=str)
         parser.add_argument('invoiced', type=int)
+        parser.add_argument('project_id', type=int)
 
         args = parser.parse_args()
 
@@ -55,16 +56,19 @@ class ManageEntries(Resource):
 
         if args['id'] < 0:
             # add new client
+            print('new')
+            print(args['project_id'])
             try:
-                cur.execute("""INSERT INTO entries (user_id, entry_date, hours, task, invoice_reference, comments, invoiced) 
-                            VALUES (0, ?, ?, ?, ?, ?, ?, ?, ?)""",
-                            (args['entry_date'], args['hours'], args['task'], args['invoice_reference'], args['comments'], args['invoiced']))
+                cur.execute("""INSERT INTO entries (user_id, entry_date, hours, task, invoice_reference, comments, invoiced, project_id) 
+                            VALUES (0, ?, ?, ?, ?, ?, ?, ?)""",
+                            (args['entry_date'], args['hours'], args['task'], args['invoice_reference'], args['comments'], args['invoiced'], args['project_id']))
                 conn.commit()
                 return {'message': 'Entry added'}, 200
-            except:
+            except Exception as e:
+                print(e)
                 return {
                     'message': 'Entry not added'
-                }, 200
+                }, 204
 
         else:
             # edit existing client
