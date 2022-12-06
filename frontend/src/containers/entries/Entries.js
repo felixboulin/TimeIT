@@ -27,7 +27,6 @@ export default function Entries(props) {
         getClientProjects();
     }, []);
 
-
     // Relevant for add new entry
     const handleClientSelect = (e) => {
         e.preventDefault();

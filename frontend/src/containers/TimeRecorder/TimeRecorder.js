@@ -26,6 +26,7 @@ function TimeRecorder(props) {
     const [timer, setTimer] = useState(null);
     const [isRunning, setIsRunning] = useState(false);
 
+
     // Functions related to Stopwatch operations
     const UpdateCounter = () => {
         setTime(time => time + 1);
